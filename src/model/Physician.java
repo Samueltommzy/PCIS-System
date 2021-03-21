@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Arrays;
+
 /**
  *
  * @author samuel
@@ -52,25 +54,17 @@ public class Physician extends User {
         return phoneNumber;
     }
      public String getAreasOfExpertise() {
-        String result = "";
-        for (String s : areasOfExpertise) {
-            result += s + ",";
-        }
-        return result;
+        return Arrays.toString(areasOfExpertise);
     }
 
     public String getConsultationHours() {
-        String result = "";
-        for (String s : consultHours) {
-            result += s + ",";
-        }
-        return result;
+       return Arrays.toString(consultHours);
     }
 
     @Override
     public String getUserInfo() {
         return  "Id: " + getId() + "\nName: " + getFullName() + "\nAddress: " + getAddress() + "\nphoneNumber: " + 
-                getPhoneNumber()+ "\nAreas of Expertise: " + "[" + getAreasOfExpertise() + "]" + "\nConsultation Hours: " + "[" + getConsultationHours() + "]";
+                getPhoneNumber()+ "\nAreas of Expertise: " + getAreasOfExpertise() + "\nConsultation Hours: "  + getConsultationHours() ;
     }
     
 }
