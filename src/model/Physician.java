@@ -20,7 +20,18 @@ public class Physician extends User {
     private String address;
 
     private String phoneNumber;
+       public Physician(){
     
+    }
+    
+    public Physician(int id, String fullName, String address, String phoneNumber, String[] expertise, String[] consultHours) {
+        this.id = id;
+        this.fullName = fullName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        areasOfExpertise = expertise;
+        this.consultHours = consultHours;
+    }
     @Override
     public int getId() {
        return id;
