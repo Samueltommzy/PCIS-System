@@ -67,4 +67,8 @@ public class Treatment {
         return expertise;
     }
     
+    public String getTreatmentInfo(){
+        return "\nTreatment: "+getName()+"\nRoom: "+getRoom()+"\nDate Available: "+getDate()+"\nStatus: "+getStatus();
+    }
+    
 }
