@@ -70,20 +70,43 @@ public class DatastoreQuery {
             indexOfName++;
         }
     }
-     //View physician treatments
+     
+     public void listPatients(){
+         System.out.println(".....................All patients..............................\n");
+        
+        for(int i = 0;i <physicians.size();i++){
+            System.out.println(patients.get(i).getId()+"."+" "+patients.get(i).getFullName());
+        }
+     }
+     
+     public void listExpertise(){
+         System.out.println(".....................All expertise..............................\n");
+        
+        for(int i = 0;i <expertises.size();i++){
+            System.out.println(expertises.get(i).getId()+"."+" "+expertises.get(i).getName());
+        }
+     }
+     //View treatments
      //Using hashset to improve performance giving constant -time number of operations 0(n) instead of looping o(n2)
-     public void viewPhysicianTreatments(int id){
-         ArrayList<Treatment> physTreatments;
+     public void viewTreatments(int id,String viewBy){
+         ArrayList<Treatment> availableTreatments = new ArrayList<>();
          String physicianName = physicians.get(id-1).getFullName();
          Set<Integer> filterSet = treatmentFilter(id).stream().collect(Collectors.toSet());
-         physTreatments = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
-         System.out.println("-------All treatments available for this physician-------\n");
-         for(int i =0;i<physTreatments.size();i++){
-             System.out.println("....................."+(i+1)+ ".............................\n"+physTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+         if(viewBy.equals("physician")){
+             availableTreatments = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
+         }
+         else{
+             availableTreatments = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getExpertiseId())).collect(Collectors.toList());
+         }
+         System.out.println("-------All treatments available for this "+viewBy+"-------\n");
+         for(int i =0;i<availableTreatments.size();i++){
+             System.out.println("....................."+(i+1)+ ".............................\n"+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
          }
      }
      
      private List<Integer> treatmentFilter(int id){
          return Arrays.asList(id);
      }
+     
 }
+
