@@ -5,6 +5,12 @@
  */
 package datastore;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +27,11 @@ import model.Treatment;
  * @author samuel
  */
 public class DatastoreQuery {
-    ArrayList<Physician> physicians;
-    ArrayList<Patient> patients;
-    ArrayList<Treatment> treatments;
-    ArrayList<Appointment> appointments;
-    ArrayList<Expertise> expertises;
+   private ArrayList<Physician> physicians;
+   private  ArrayList<Patient> patients;
+   private ArrayList<Treatment> treatments;
+   private ArrayList<Appointment> appointments;
+   private ArrayList<Expertise> expertises;
     
     public DatastoreQuery(){
         this.appointments = new ArrayList<Appointment>();
@@ -108,5 +114,42 @@ public class DatastoreQuery {
          return Arrays.asList(id);
      }
      
+        public  void readFileData(String fileName,String className) throws EOFException, FileNotFoundException, IOException, ClassNotFoundException{
+            FileInputStream fi = new FileInputStream(new File(fileName));
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            try(oi){
+                while(true){
+                    Object fileData = oi.readObject();
+                    if(fileData == null){
+                        break;
+                    }
+                    switch (className){
+                        case "Physician":
+                            Physician p = (Physician) fileData;
+                            physicians.add(p);
+                            break;
+                        case "Expertise":
+                            Expertise e = (Expertise) fileData;
+                            expertises.add(e);
+                            break;
+                        case "Patient":
+                            Patient pa = (Patient) fileData;
+                            patients.add(pa);
+                            break;
+                        case "Treatment":
+                            Treatment t = (Treatment) fileData;
+                            treatments.add(t);
+                        default:
+                            System.err.println("Invalid class name provided");
+                            break;
+                    }  
+                }
+            }
+            
+            catch(EOFException e){
+//                e.printStackTrace();
+                oi.close();
+            }       
+    }
 }
 
