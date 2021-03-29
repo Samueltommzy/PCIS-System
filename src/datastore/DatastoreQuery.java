@@ -94,24 +94,36 @@ public class DatastoreQuery {
      }
      //View treatments
      //Using hashset to improve performance giving constant -time number of operations 0(n) instead of looping o(n2)
-     public void viewTreatments(int id,String viewBy){
-         ArrayList<Treatment> availableTreatments = new ArrayList<>();
+     public void viewTreatmentByPhysician(int id){
          String physicianName = physicians.get(id-1).getFullName();
          Set<Integer> filterSet = treatmentFilter(id).stream().collect(Collectors.toSet());
-         if(viewBy.equals("physician")){
-             availableTreatments = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
-         }
-         else{
-             availableTreatments = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getExpertiseId())).collect(Collectors.toList());
-         }
-         System.out.println("-------All treatments available for this "+viewBy+"-------\n");
+        
+          ArrayList<Treatment> availableTreatments  = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
+         
+         System.out.println("-------All treatments available for  "+physicianName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
-             System.out.println("....................."+(i+1)+ ".............................\n"+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+         }
+     }
+     
+        public void viewTreatmentByExpertise(int id){
+         String expertiseName = expertises.get(id-1).getName();
+         Set<String> filterSet = treatmentFilterExpertise(expertiseName).stream().collect(Collectors.toSet());
+          ArrayList<Treatment> availableTreatments  = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getExpertiseName())).collect(Collectors.toList());
+         
+         System.out.println("-------All treatments available for "+expertiseName+"-------\n");
+         for(int i =0;i<availableTreatments.size();i++){
+             int physicianId = availableTreatments.get(i).getPhysicianId();
+             String physicianName = physicians.get(physicianId-1).getFullName();
+             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
          }
      }
      
      private List<Integer> treatmentFilter(int id){
          return Arrays.asList(id);
+     }
+     private List<String> treatmentFilterExpertise(String name){
+         return Arrays.asList(name);
      }
      
         public  void readFileData(String fileName,String className) throws EOFException, FileNotFoundException, IOException, ClassNotFoundException{
@@ -139,6 +151,7 @@ public class DatastoreQuery {
                         case "Treatment":
                             Treatment t = (Treatment) fileData;
                             treatments.add(t);
+                            break;
                         default:
                             System.err.println("Invalid class name provided");
                             break;
