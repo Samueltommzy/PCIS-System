@@ -5,10 +5,13 @@
  */
 package datastore;
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import model.Expertise;
 import model.Physician;
+import model.Treatment;
 
 /**
  *
@@ -16,7 +19,7 @@ import model.Physician;
  */
 public class Data {
     
-   static void createPhysicians() throws IOException{
+   public static void createPhysicians() throws IOException{
          ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("physicians.txt"));
          String[] p1Expertise = { "Physiotherapy", "Rehabilitation" };
         String[] p1ConsultationHours = { "Modays 12-1pm", "Wednesdays 1-2pm" };
@@ -27,7 +30,7 @@ public class Data {
         String[] p3Expertise = { "Physiotherapy","Oestopathy", "Rehabilitation" };
         String[] p3ConsultationHours = { "Tuesdays 12-1pm", "Wednesdays 1-2pm" };
         
-        String[] p4Expertise = { "Physiotherapy", "Rehabilitation" };
+        String[] p4Expertise = { "Physiotherapy", "Oestopathy" };
         String[] p4ConsultationHours = { "Mondays 9-10am", "Wednesdays 3-4pm" };
         
         String[] p5Expertise = { "Physiotherapy","Oestopathy", "Rehabilitation" };
@@ -54,4 +57,36 @@ public class Data {
         outputStream.close();
     }
    
+   static void createExpertise() throws IOException{
+       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("expertise.txt"));
+       Expertise e1 = new Expertise("Oesteopathy",1);
+       Expertise e2 = new Expertise("Physiotherapy",2);
+       Expertise e3 = new Expertise("Rehabilitation",3);
+       
+       outputStream.writeObject(e1);
+       outputStream.writeObject(e2);
+       outputStream.writeObject(e3);
+       
+       outputStream.close();
+   }
+   
+   static void createTreatments() throws  IOException{
+       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("treatments.txt"));
+        outputStream.writeObject( new Treatment("Acupuncture","04/05/2021,1:00-2:00pm",1,"suit A","Available","Physiotherapy"));
+        outputStream.writeObject( new Treatment("Acupuncture","04/05/2021,4:00-5:00pm",1,"suit A","Available","Physiotherapy"));
+        outputStream.writeObject(new Treatment("Massage","07/05/2021,8:00-9:00am",1,"spa","Available","Physiotherapy"));
+        outputStream.writeObject(new Treatment("Mental Rehab","11/05/2021,10:00-11:00am",1,"suit C","Available","Rehabilitation"));
+        outputStream.writeObject( new Treatment("Massage","13/05/2021,2:00-3:00pm",1,"spa","Available","Physiotherapy"));
+        outputStream.writeObject(new Treatment("Pool Rehab","14/05/2021,8:00-9:00am",1,"pool","Available","Rehabilitation"));
+        outputStream.writeObject(new Treatment("Acupuncture","18/05/2021,4:00-5:00pm",1,"suit A","Available","Physiotherapy"));
+        outputStream.writeObject(new Treatment("Mental Rehab","21/05/2021,8:00-9:00am",1,"suit  C","Available","Rehabilitation"));
+        outputStream.writeObject(new Treatment("Pool Rehab","03/05/2021,8:00-9:00am",2,"pool","Available","Rehabilitation"));
+        outputStream.writeObject(new Treatment("Neural Mobilisation","05/05/2021,11:00-12:00pm",2,"suit D","Available","Oestopathy"));
+        outputStream.writeObject(new Treatment("Mental Rehab","10/05/2021,1:00-2:00pm",2,"suit C","Available","Rehabilitation"));
+        outputStream.writeObject(new Treatment("Pool Rehab","15/05/2021,10:00-11:00am",2,"pool","Available","Rehabilitation"));
+        
+        outputStream.close();
+   }
+   
+
 }
