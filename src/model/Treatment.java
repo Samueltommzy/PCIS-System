@@ -5,21 +5,23 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author samuel
  */
-public class Treatment {
+public class Treatment implements Serializable {
     private String name;
     private String date;
     private int physicianId;
     private String room;
     private String status;
-    private String expertise;
+    private String expertiseName;
     
-    public Treatment(String name,String date,int physicianId,String room,String status,String expertise){
+    public Treatment(String name,String date,int physicianId,String room,String status,String expertiseName){
         this.date = date;
-        this.expertise = expertise;
+        this.expertiseName = expertiseName;
         this.name = name;
         this.physicianId  = physicianId;
         this.room = room;
@@ -63,8 +65,8 @@ public class Treatment {
     /**
      * @return the expertise
      */
-    public String getExpertise() {
-        return expertise;
+    public String getExpertiseName() {
+        return expertiseName;
     }
     
     public String getTreatmentInfo(){
