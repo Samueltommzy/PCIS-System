@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author samuel
  */
-public class Patient extends User{
+public class Patient extends User implements Serializable{
      private int id;
 
     private String fullName;

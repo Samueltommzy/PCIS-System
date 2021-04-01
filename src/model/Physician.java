@@ -5,13 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  *
  * @author samuel
  */
-public class Physician extends User {
+public class Physician extends User implements Serializable{
     private String[] areasOfExpertise;
 
     private String[] consultHours;
