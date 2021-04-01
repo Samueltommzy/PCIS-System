@@ -80,8 +80,8 @@ public class DatastoreQuery {
      public void listPatients(){
          System.out.println(".....................All patients..............................\n");
         
-        for(int i = 0;i <physicians.size();i++){
-            System.out.println(patients.get(i).getId()+"."+" "+patients.get(i).getFullName());
+        for(int i = 0;i <patients.size();i++){
+            System.out.println(patients.get(i).getId()+"."+" "+patients.get(i).getUserInfo());
         }
      }
      
