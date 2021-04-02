@@ -5,12 +5,16 @@
  */
 package datastore;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +25,7 @@ import model.Expertise;
 import model.Patient;
 import model.Physician;
 import model.Treatment;
+import pcis.project.Main;
 
 /**
  *
@@ -56,12 +61,12 @@ public class DatastoreQuery {
     public void addAppointment(Appointment a){
         appointments.add(a);
     }
-    //List physicians by name
+    //List physicians 
     public void listPhysicians(){
         System.out.println(".....................All physicians..............................\n");
         
         for(int i = 0;i <physicians.size();i++){
-            System.out.println(physicians.get(i).getId()+"."+" "+physicians.get(i).getFullName());
+            System.out.println(physicians.get(i).getId()+"."+" "+physicians.get(i).getUserInfo());
         }
     }
     //View physician Details
@@ -126,8 +131,8 @@ public class DatastoreQuery {
          return Arrays.asList(name);
      }
      
-        public  void readFileData(String fileName,String className) throws EOFException, FileNotFoundException, IOException, ClassNotFoundException{
-            FileInputStream fi = new FileInputStream(new File(fileName));
+        public  void readFileData(String fileName,String className) throws EOFException, FileNotFoundException, IOException, ClassNotFoundException, URISyntaxException{
+             InputStream fi = Main.class.getClassLoader().getResourceAsStream(fileName);
             ObjectInputStream oi = new ObjectInputStream(fi);
             try(oi){
                 while(true){
@@ -164,5 +169,9 @@ public class DatastoreQuery {
                 oi.close();
             }       
     }
+    
+        public String getPatientName(int id){
+            return patients.get(id-1).getFullName();
+        }
 }
 
