@@ -76,7 +76,7 @@ public class PCISControllers {
          else {
              try{
                  int iput = Integer.parseInt(input);
-                 if(iput <1 || iput > 15){
+                 if(iput <1 || iput > q.getPatientSize()){
                      System.err.println("You have input a wrong patient id,try again");
                      patientEntryPoint();
                  }
@@ -251,12 +251,12 @@ public class PCISControllers {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         scanner = new Scanner(System.in);
         System.out.println("Enter name to use: ");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         System.out.println("Enter phoneNumber: ");
-        String phoneNumber = scanner.next();
+        String phoneNumber = scanner.nextLine();
         System.out.println("Enter your address: ");
-        String address = scanner.next();
-        int patientId = 16;
+        String address = scanner.nextLine();
+        int patientId = q.getPatientSize()+1;
         selectedPatientId = String.valueOf(patientId);
         Patient newp = new Patient(patientId,name,address,phoneNumber);
         q.addPatient(newp);
