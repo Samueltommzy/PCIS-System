@@ -97,6 +97,13 @@ public class DatastoreQuery {
             System.out.println(expertises.get(i).getId()+"."+" "+expertises.get(i).getName());
         }
      }
+     public void listAppointments(){
+         System.out.println(".....................All Appointments..............................\n");
+        
+        for(int i = 0;i <appointments.size();i++){
+            System.out.println(i+"."+" "+appointments.get(i).appointmentInfo());
+        }
+     }
      //View treatments
      //Using hashset to improve performance giving constant -time number of operations 0(n) instead of looping o(n2)
      public void viewTreatmentByPhysician(int id){
@@ -107,7 +114,9 @@ public class DatastoreQuery {
          
          System.out.println("-------All treatments available for  "+physicianName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
-             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             int treatmentId= treatments.indexOf(availableTreatments.get(i));
+//             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             System.out.println((i+1)+"\ntreamentId: " + treatmentId+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
          }
      }
      
@@ -118,9 +127,10 @@ public class DatastoreQuery {
          
          System.out.println("-------All treatments available for "+expertiseName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
+              int treatmentId= treatments.indexOf(availableTreatments.get(i));
              int physicianId = availableTreatments.get(i).getPhysicianId();
              String physicianName = physicians.get(physicianId-1).getFullName();
-             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             System.out.println((i+1)+"\ntreamentId: " + treatmentId+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
          }
      }
      
@@ -173,5 +183,58 @@ public class DatastoreQuery {
         public String getPatientName(int id){
             return patients.get(id-1).getFullName();
         }
+        public String getPhysicianName(int id){
+            return physicians.get(id-1).getFullName();
+        }
+        public Treatment getTreatment(int id){
+            return treatments.get(id);
+        }
+        
+       public void setTreatmentStatus(String status,int id){
+           Treatment t = treatments.get(id-1);
+           
+           t.setStatus(status);
+       }
+       public int getPatientSize(){
+           return patients.size();
+       }
+       public int getAppointmentSize(){
+           return appointments.size();
+       }
+       
+       public Appointment getAppointmentById(int id){
+           return appointments.get(id-1);
+       }
+       public void viewAttendedAppointments(){
+          String status = "Attended";
+          Set<String> filterSet = appointmentFilterByStatus(status).stream().collect(Collectors.toSet());
+          ArrayList<Appointment> attendedAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
+          System.out.println("-------All attended appointments-------\n");
+          for(int i =0;i<attendedAppointments.size();i++){
+             System.out.println((i+1)+attendedAppointments.get(i).appointmentInfo());
+          }
+       }
+        public void viewCancelledAppointments(){
+          String status = "Cancelled";
+          Set<String> filterSet = appointmentFilterByStatus(status).stream().collect(Collectors.toSet());
+          ArrayList<Appointment> cancelledAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
+          System.out.println("-------All cancelled appointments-------\n");
+          for(int i =0;i<cancelledAppointments.size();i++){
+             System.out.println((i+1)+cancelledAppointments.get(i).appointmentInfo());
+          }
+       }
+        
+           public void viewMissedAppointments(){
+          String status = "Missed";
+          Set<String> filterSet = appointmentFilterByStatus(status).stream().collect(Collectors.toSet());
+          ArrayList<Appointment> missedAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
+          System.out.println("-------All missed appointments-------\n");
+          for(int i =0;i<missedAppointments.size();i++){
+             System.out.println((i+1)+missedAppointments.get(i).appointmentInfo());
+          }
+       }
+        private List<String> appointmentFilterByStatus(String status){
+         return Arrays.asList(status);
+     }
 }
 

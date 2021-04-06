@@ -13,6 +13,7 @@ import java.util.Arrays;
  * @author samuel
  */
 public class Physician extends User implements Serializable{
+//    private static final long serialVersionUID = 1L;
     private String[] areasOfExpertise;
 
     private String[] consultHours;

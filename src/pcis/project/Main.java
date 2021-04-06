@@ -11,6 +11,7 @@ import datastore.DatastoreQuery;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  *
@@ -21,8 +22,10 @@ public class Main {
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
+     * @throws java.io.EOFException
+     * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws IOException, EOFException, FileNotFoundException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, EOFException, FileNotFoundException, ClassNotFoundException, URISyntaxException {
         // TODO code application logic here
 //        Data.createPhysicians();
 //        Data.createExpertise();

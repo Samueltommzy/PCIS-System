@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author samuel
  */
 public class Patient extends User implements Serializable{
+//     private static final long serialVersionUID = 1L;1
      private int id;
 
     private String fullName;

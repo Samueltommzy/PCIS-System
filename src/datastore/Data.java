@@ -22,7 +22,7 @@ import model.Treatment;
 public class Data {
     
    public static void createPhysicians() throws IOException{
-         ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("physicians.txt"));
+         ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("src/physicians.txt"));
          String[] p1Expertise = { "Physiotherapy", "Rehabilitation" };
         String[] p1ConsultationHours = { "Modays 12-1pm", "Wednesdays 1-2pm" };
         
@@ -54,7 +54,7 @@ public class Data {
     }
    
    public static void createExpertise() throws IOException{
-       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("expertises.txt"));
+       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("src/expertises.txt"));
        Expertise e1 = new Expertise("Oestopathy",1);
        Expertise e2 = new Expertise("Physiotherapy",2);
        Expertise e3 = new Expertise("Rehabilitation",3);
@@ -67,7 +67,7 @@ public class Data {
    }
    
   public static void createTreatments() throws  IOException{
-       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("treatments.txt"));
+       ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("src/treatments.txt"));
         outputStream.writeObject( new Treatment("Acupuncture","04/05/2021,1:00-2:00pm",1,"suit A","Available","Physiotherapy"));
         outputStream.writeObject( new Treatment("Acupuncture","06/05/2021,4:00-5:00pm",1,"suit A","Available","Physiotherapy"));
         outputStream.writeObject(new Treatment("Massage","07/05/2021,8:00-9:00am",1,"spa","Available","Physiotherapy"));
@@ -107,7 +107,7 @@ public class Data {
    }
    
   public static void createPatients() throws FileNotFoundException, IOException{
-      ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("patients.txt"));
+      ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("src/patients.txt"));
       outputStream.writeObject(new Patient(1,"Edmond Sam", "London,UK", "08123492788"));
       outputStream.writeObject(new Patient(2,"Daniel Opeyemi", "Ashford,UK", "08123493188"));
       outputStream.writeObject(new Patient(3,"Oladele Helen", "Manchester,UK", "08162892789"));

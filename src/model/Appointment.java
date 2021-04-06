@@ -10,47 +10,51 @@ package model;
  * @author samuel
  */
 public class Appointment{
-    private int patientId;
-    private int physicianId;
+    private String appointmentId;
+    private String patientId;
+    private String patientName;
+    private String physicianName;
     private String treatmentName;
     private String treatmentDate;
     private String room;
     private String status;
     
-    public Appointment(int patientId,int physicianId,String treatmentName,String treatmentDate,String room,String status){
+    public Appointment(String appointmentId,String patientId,String patientName,String physicianName,String treatmentName,String treatmentDate,String room,String status){
         this.patientId = patientId;
-        this.physicianId = physicianId;
+        this.physicianName = physicianName;
         this.room = room;
         this.status = status;
         this.treatmentDate = treatmentDate;
         this.treatmentName = treatmentName;
+        this.appointmentId = appointmentId;
+        this.patientName = patientName;
     }
     /**
      * @return the patientId
      */
-    public int getPatientId() {
+    public String getPatientId() {
         return patientId;
     }
 
     /**
      * @param patientId the patientId to set
      */
-    public void setPatientId(int patientId) {
+    public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
 
     /**
      * @return the physicianId
      */
-    public int getPhysicianId() {
-        return physicianId;
+    public String getPhysicianName() {
+        return physicianName;
     }
 
     /**
      * @param physicianId the physicianId to set
      */
-    public void setPhysicianId(int physicianId) {
-        this.physicianId = physicianId;
+    public void setPhysicianId(String physicianName) {
+        this.physicianName = physicianName;
     }
 
     /**
@@ -107,5 +111,9 @@ public class Appointment{
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public String appointmentInfo(){
+        return "\nappointmentId:"+appointmentId+" \ntreatment: "+treatmentName+"\npatientName: "+patientName+"\nphysicianName: "+physicianName+"\nstatus: "+status+"\ndate: "+treatmentDate+"\nroom: "+room;
     }
 }

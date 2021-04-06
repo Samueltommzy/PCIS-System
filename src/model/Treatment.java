@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author samuel
  */
 public class Treatment implements Serializable {
+//    private static final long serialVersionUID = 1L;
     private String name;
     private String date;
     private int physicianId;
@@ -54,7 +55,9 @@ public class Treatment implements Serializable {
     public String getRoom() {
         return room;
     }
-
+    public void setStatus(String status){
+        this.status = status;
+    }
     /**
      * @return the status
      */
