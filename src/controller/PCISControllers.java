@@ -23,10 +23,14 @@ public class PCISControllers {
     public static void startConsoleApp(DatastoreQuery query){
         q = query;
         System.out.println("-------- Welcome to the Physiotherapy&Sports Injury Center --------\n"
-                + "You will be provided with a couple of commands,kindly type the command number to assess a particular functionality\n\n");
+                + "You will be provided with a couple of commands,"
+                + "kindly type the command number to assess a particular functionality\n\n");
         
         System.out.println("Select an option below");
-        System.out.println("1. View all available patients\n2. View all available physicians\n3. View all areas of Expertise\n4. Create a patient\n5. Exit\n6. Back to home");
+        System.out.println("1. View all available patients\n2. View all available physicians\n3. View all areas of Expertise "
+                + "\n4. Create a patient\n5. View all Appointments\n6. Attend an appointment\n7. Cancel an appointment"
+                + "\n8. Miss an appointment" +"\n9. View all attended appointments\n10. View all cancelled appointments"
+                + "\n11.View all missed appointments\n12.Exit");
         scanner = new Scanner(System.in);
         String input = scanner.next();
         switch(input){
@@ -43,9 +47,28 @@ public class PCISControllers {
                 createPatient();
                 break;
             case "5":
-                exitApp();
+                viewAllAppointments();
+                break;
             case "6":
-                startConsoleApp(q);
+                attendAnAppointment();
+                break;
+            case "7":
+                cancelAnAppointment();
+                break;
+            case "8":
+                missAnAppointment();
+                break;
+            case  "9":
+                viewAppointments("Attended");
+                break;
+             case  "10":
+                viewAppointments("Cancelled");
+                break;
+             case  "11":
+                viewAppointments("Missed");
+                break;
+            case "12":
+                exitApp();
                 break;
             default:
                 System.out.println("Invalid option selected,exiting app.....");
@@ -170,6 +193,7 @@ public class PCISControllers {
     
     private static void bookTreatmentByPhysician(int id){
         q.viewTreatmentByPhysician(id);
+         String patientName = q.getPatientName(Integer.parseInt(selectedPatientId));
         String physicianName = q.getPhysicianName(id);
         System.out.println("0. Exit App \n00. Back to physicians menu");
         System.out.println("Select a ***TREATMENTID*** to book");
@@ -191,7 +215,7 @@ public class PCISControllers {
                 }
                 else{
                     q.setTreatmentStatus("Booked", iput);
-                    createAppointment(input,selectedPatientId,physicianName,t.getDate(),"Booked",t.getRoom(),t.getName());
+                    createAppointment(input,selectedPatientId,patientName,physicianName,t.getDate(),"Booked",t.getRoom(),t.getName());
                     
                 }
             }
@@ -206,6 +230,7 @@ public class PCISControllers {
         private static void bookTreatmentByExpertise(int id){
         q.viewTreatmentByExpertise(id);
         String physicianName = q.getPhysicianName(id);
+        String patientName = q.getPatientName(Integer.parseInt(selectedPatientId));
         System.out.println("0. Exit App \n00. Back to physicians menu");
         System.out.println("Select a ***TREATMENTID*** to book");
         scanner = new Scanner(System.in);
@@ -226,7 +251,7 @@ public class PCISControllers {
                 }
                 else{
                     q.setTreatmentStatus("Booked", iput);
-                    createAppointment(input,selectedPatientId,physicianName,t.getDate(),"Booked",t.getRoom(),t.getName());
+                    createAppointment(input,selectedPatientId,patientName,physicianName,t.getDate(),"Booked",t.getRoom(),t.getName());
                     
                 }
             }
@@ -238,12 +263,10 @@ public class PCISControllers {
         }
     }
     
-    public static void createAppointment(String treatmentId,String patientId,String physicianName,String date,String status,String room,String treatmentName){
-        Appointment appointment = new Appointment(patientId,physicianName,treatmentName,date,room,status);
+    public static void createAppointment(String treatmentId,String patientId,String patientName,String physicianName,String date,String status,String room,String treatmentName){
+        Appointment appointment = new Appointment(String.valueOf(q.getAppointmentSize()+1),patientId,patientName,physicianName,treatmentName,date,room,status);
         q.addAppointment(appointment);
         System.out.println("your "+ treatmentName+" appointment with "+physicianName+" has been successfully booked for "+ date );
-//       scanner = new Scanner(System.in);
-        q.listAppointments();
         physicianEntryPoint();
     }
 
@@ -263,4 +286,146 @@ public class PCISControllers {
         System.out.println("Patient successfully created" );
         patientEntryPoint();
     }
+    
+    private static void viewAllAppointments(){
+//        System.out.println("....All patients appointment.....");
+        q.listAppointments();
+        backToHome();
+    }
+
+    private static void attendAnAppointment() {
+       q.listAppointments();
+       System.out.println("00. Back to previous menu"+"\n0. Exit");
+       System.out.println("Select an **APPOINTMENTID**  in order to attend");
+       scanner = new Scanner(System.in);
+       String input = scanner.next();
+       int iput = Integer.parseInt(input);
+       if(input.equals("0")){
+           exitApp();
+       }
+       if(input.equals("00")){
+           startConsoleApp(q);
+       }
+       if(iput<0||iput>q.getAppointmentSize()){
+           System.err.println("Invalid input,kindly select a valid appointmentId from the above");
+           attendAnAppointment();
+       }
+       else{
+           try{
+               Appointment selectedAppointment = q.getAppointmentById(iput);
+               if(selectedAppointment.getStatus().equals("Cancelled")||selectedAppointment.getStatus().equals("Missed")){
+                   System.err.println("Sorry you cannot attend an already cancelled or missed appointment");
+                   attendAnAppointment();
+               }
+               selectedAppointment.setStatus("Attended");
+               System.out.println("You have successfully attended the appointment,go back to previous menu to"
+                       + " view all attended appointments or select another appointment to attend");
+               attendAnAppointment();
+           }
+           catch(Exception e){
+               System.err.println(e.getMessage());
+               System.err.println("Make sure you input an integer");
+           }
+       }
+    }
+    
+     private static void cancelAnAppointment() {
+       q.listAppointments();
+       System.out.println("00. Back to previous menu"+"\n0. Exit");
+       System.out.println("Select an **APPOINTMENTID**  in order to cancel");
+       scanner = new Scanner(System.in);
+       String input = scanner.next();
+       int iput = Integer.parseInt(input);
+       if(input.equals("0")){
+           exitApp();
+       }
+       if(input.equals("00")){
+           startConsoleApp(q);
+       }
+       if(iput<0||iput>q.getAppointmentSize()){
+           System.err.println("Invalid input,kindly select a valid appointmentId from the above");
+           cancelAnAppointment();
+       }
+       else{
+           try{
+               Appointment selectedAppointment = q.getAppointmentById(iput);
+               if(selectedAppointment.getStatus().equals("Attended")||selectedAppointment.getStatus().equals("Missed")){
+                   System.err.println("Sorry you cannot cancel an already attended or missed appointment");
+                   cancelAnAppointment();
+               }
+               selectedAppointment.setStatus("Cancelled");
+               System.out.println("You have successfully cancelled the appointment,go back to previous menu to"
+                       + " view all cancelled appointments or select another appointment to cancel");
+               cancelAnAppointment();
+           }
+           catch(Exception e){
+               System.err.println(e.getMessage());
+               System.err.println("Make sure you input an integer");
+           }
+       }
+    }
+     private static void missAnAppointment() {
+       q.listAppointments();
+       System.out.println("00. Back to previous menu"+"\n0. Exit");
+       System.out.println("Select an **APPOINTMENTID**  in order to miss");
+       scanner = new Scanner(System.in);
+       String input = scanner.next();
+       int iput = Integer.parseInt(input);
+       if(input.equals("0")){
+           exitApp();
+       }
+       if(input.equals("00")){
+           startConsoleApp(q);
+       }
+       if(iput<0||iput>q.getAppointmentSize()){
+           System.err.println("Invalid input,kindly select a valid appointmentId from the above");
+           missAnAppointment();
+       }
+       else{
+           try{
+               Appointment selectedAppointment = q.getAppointmentById(iput);
+               if(selectedAppointment.getStatus().equals("Attended")||selectedAppointment.getStatus().equals("Cancelled")){
+                   System.err.println("Sorry you cannot miss an already attended or cancelled appointment");
+                   missAnAppointment();
+               }
+               selectedAppointment.setStatus("Missed");
+               System.out.println("You have successfully cancelled the appointment,go back to previous menu to"
+                       + " view all missed appointments or select another appointment to miss");
+               missAnAppointment();
+           }
+           catch(Exception e){
+               System.err.println(e.getMessage());
+               System.err.println("Make sure you input an integer");
+           }
+       }
+    }
+     public static void viewAppointments(String status){
+         switch(status){
+             case "Attended":
+                 q.viewAttendedAppointments();
+                 break;
+             case "Cancelled":
+                 q.viewCancelledAppointments();
+                 break;
+             case "Missed":
+                 q.viewMissedAppointments();
+                 break;
+             default:
+                 startConsoleApp(q);
+         }
+       System.out.println("00. Back to previous menu"+"\n0. Exit");
+       scanner = new Scanner(System.in);
+       String input = scanner.next();
+       
+            if(input.equals("0")){
+                exitApp();
+           }
+           if(input.equals("00")){
+               startConsoleApp(q);
+           }
+           if(!(input.equals("0")||input.equals("00"))){
+               System.err.println("Make sure you type either 0 or 00");
+               viewAppointments(status);
+           }
+     }
 }
