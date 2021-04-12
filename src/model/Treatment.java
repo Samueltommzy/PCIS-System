@@ -19,14 +19,16 @@ public class Treatment implements Serializable {
     private String room;
     private String status;
     private String expertiseName;
+    private int treatmentId;
     
-    public Treatment(String name,String date,int physicianId,String room,String status,String expertiseName){
+    public Treatment(int treatmentId,String name,String date,int physicianId,String room,String status,String expertiseName){
         this.date = date;
         this.expertiseName = expertiseName;
         this.name = name;
         this.physicianId  = physicianId;
         this.room = room;
         this.status = status;
+        this.treatmentId = treatmentId;
     }
     /**
      * @return the name
@@ -71,9 +73,11 @@ public class Treatment implements Serializable {
     public String getExpertiseName() {
         return expertiseName;
     }
-    
+    public int getTreatmentId(){
+        return this.treatmentId;
+    }
     public String getTreatmentInfo(){
-        return "\nTreatment: "+getName()+"\nRoom: "+getRoom()+"\nDate Available: "+getDate()+"\nStatus: "+getStatus();
+        return "\nTreatmentId: " + getTreatmentId()+"\nTreatment: "+getName()+"\nRoom: "+getRoom()+"\nDate Available: "+getDate()+"\nStatus: "+getStatus();
     }
     
 }
