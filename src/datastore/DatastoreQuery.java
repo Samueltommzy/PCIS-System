@@ -60,6 +60,9 @@ public class DatastoreQuery {
     public void addTreatment(Treatment t){
         treatments.add(t);
     }
+     public void addExpertise(Expertise t){
+        expertises.add(t);
+    }
     public Appointment addAppointment(Appointment a){
         appointments.add(a);
         return a;
@@ -69,6 +72,9 @@ public class DatastoreQuery {
     }
     public ArrayList<Patient> getAllPatients(){
         return patients;
+    }
+    public ArrayList<Expertise> getAllExpertise(){
+        return expertises;
     }
     //List physicians 
     public void listPhysicians(){
@@ -194,7 +200,7 @@ public class DatastoreQuery {
             return physicians.get(id-1).getFullName();
         }
         public Treatment getTreatment(int id){
-            return treatments.get(id);
+            return treatments.get(id-1);
         }
         
        public void setTreatmentStatus(String status,int id){
