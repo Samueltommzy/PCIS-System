@@ -47,26 +47,35 @@ public class DatastoreQuery {
     }
     
     //Add physician
-    public void addPhysician(Physician p){
+    public Physician addPhysician(Physician p){
         physicians.add(p);
+        return p;
     }
     //Add patient
-    public void addPatient(Patient p ){
+    public Patient addPatient(Patient p ){
         patients.add(p);
+        return p;
     }
     //Add treatment
     public void addTreatment(Treatment t){
         treatments.add(t);
     }
-    public void addAppointment(Appointment a){
+    public Appointment addAppointment(Appointment a){
         appointments.add(a);
+        return a;
+    }
+    public ArrayList<Physician>  getAllPhysicians(){
+        return physicians;
+    }
+    public ArrayList<Patient> getAllPatients(){
+        return patients;
     }
     //List physicians 
     public void listPhysicians(){
         System.out.println(".....................All physicians..............................\n");
         
         for(int i = 0;i <physicians.size();i++){
-            System.out.println(physicians.get(i).getId()+"."+" "+physicians.get(i).getUserInfo());
+            System.out.println(physicians.get(i).getId()+"."+" "+physicians.get(i).getUserInfo()+"\n");
         }
     }
     //View physician Details
@@ -86,7 +95,7 @@ public class DatastoreQuery {
          System.out.println(".....................All patients..............................\n");
         
         for(int i = 0;i <patients.size();i++){
-            System.out.println(patients.get(i).getId()+"."+" "+patients.get(i).getUserInfo());
+            System.out.println(patients.get(i).getId()+"."+" "+patients.get(i).getUserInfo()+"\n");
         }
      }
      
@@ -94,14 +103,14 @@ public class DatastoreQuery {
          System.out.println(".....................All expertise..............................\n");
         
         for(int i = 0;i <expertises.size();i++){
-            System.out.println(expertises.get(i).getId()+"."+" "+expertises.get(i).getName());
+            System.out.println(expertises.get(i).getId()+"."+" "+expertises.get(i).getName()+"\n");
         }
      }
      public void listAppointments(){
          System.out.println(".....................All Appointments..............................\n");
         
         for(int i = 0;i <appointments.size();i++){
-            System.out.println(i+"."+" "+appointments.get(i).appointmentInfo());
+            System.out.println(appointments.get(i).appointmentInfo()+"\n");
         }
      }
      //View treatments
@@ -114,9 +123,8 @@ public class DatastoreQuery {
          
          System.out.println("-------All treatments available for  "+physicianName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
-             int treatmentId= treatments.indexOf(availableTreatments.get(i));
 //             System.out.println((i+1)+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
-             System.out.println((i+1)+"\ntreamentId: " + treatmentId+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             System.out.println(availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName+"\n");
          }
      }
      
@@ -127,10 +135,9 @@ public class DatastoreQuery {
          
          System.out.println("-------All treatments available for "+expertiseName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
-              int treatmentId= treatments.indexOf(availableTreatments.get(i));
              int physicianId = availableTreatments.get(i).getPhysicianId();
              String physicianName = physicians.get(physicianId-1).getFullName();
-             System.out.println((i+1)+"\ntreamentId: " + treatmentId+availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName);
+             System.out.println(availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName+"\n");
          }
      }
      
@@ -211,7 +218,7 @@ public class DatastoreQuery {
           ArrayList<Appointment> attendedAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
           System.out.println("-------All attended appointments-------\n");
           for(int i =0;i<attendedAppointments.size();i++){
-             System.out.println((i+1)+attendedAppointments.get(i).appointmentInfo());
+             System.out.println(attendedAppointments.get(i).appointmentInfo()+"\n");
           }
        }
         public void viewCancelledAppointments(){
@@ -220,7 +227,7 @@ public class DatastoreQuery {
           ArrayList<Appointment> cancelledAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
           System.out.println("-------All cancelled appointments-------\n");
           for(int i =0;i<cancelledAppointments.size();i++){
-             System.out.println((i+1)+cancelledAppointments.get(i).appointmentInfo());
+             System.out.println(cancelledAppointments.get(i).appointmentInfo()+"\n");
           }
        }
         
@@ -230,7 +237,7 @@ public class DatastoreQuery {
           ArrayList<Appointment> missedAppointments  = (ArrayList<Appointment>) appointments.stream().filter(appointment->filterSet.contains(appointment.getStatus())).collect(Collectors.toList());
           System.out.println("-------All missed appointments-------\n");
           for(int i =0;i<missedAppointments.size();i++){
-             System.out.println((i+1)+missedAppointments.get(i).appointmentInfo());
+             System.out.println(missedAppointments.get(i).appointmentInfo()+"\n");
           }
        }
         private List<String> appointmentFilterByStatus(String status){
