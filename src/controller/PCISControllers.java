@@ -30,7 +30,7 @@ public class PCISControllers {
         System.out.println("1. View all available patients\n2. View all available physicians\n3. View all areas of Expertise "
                 + "\n4. Create a patient\n5. View all Appointments\n6. Attend an appointment\n7. Cancel an appointment"
                 + "\n8. Miss an appointment" +"\n9. View all attended appointments\n10.View all cancelled appointments"
-                + "\n11.View all missed appointments\n12.Exit");
+                + "\n11.View all missed appointments\n12.Book Visitor consultation\n13. Exit");
         scanner = new Scanner(System.in);
         String input = scanner.next();
         switch(input){
@@ -68,6 +68,9 @@ public class PCISControllers {
                 viewAppointments("Missed");
                 break;
             case "12":
+                bookVisitorAppointment();
+                break;
+            case "13":
                 exitApp();
                 break;
             default:
@@ -107,7 +110,7 @@ public class PCISControllers {
                  else{
                      selectedPatientId = input;
                     System.out.println("\nYou have chosen to use "+q.getPatientName(iput).toUpperCase());
-                    System.out.println("You will be taken back to home page to view physicians or expertises in order to book a treatment");
+                    System.out.println("\nYou will be taken back to home page to view physicians or expertises in order to book a treatment\n");
                     backToHome();
                  }
              }
@@ -196,8 +199,8 @@ public class PCISControllers {
         q.viewTreatmentByPhysician(id);
         String patientName = q.getPatientName(Integer.parseInt(selectedPatientId));
         String physicianName = q.getPhysicianName(id);
-        System.out.println("\n0. Exit App \n\n00. Back to physicians menu");
-        System.out.println("Select a ***TREATMENTID*** to book");
+        System.out.println("\n0. Exit App \n\n00. Back to physicians menu\n");
+        System.out.println("Select a ***treatmentId*** to book");
         scanner = new Scanner(System.in);
         String input = scanner.next();
         if(input.equals("0")){
@@ -209,7 +212,7 @@ public class PCISControllers {
         else{
             try{
                 int iput = Integer.parseInt(input);
-                Treatment t = q.getTreatment(iput-1);
+                Treatment t = q.getTreatment(iput);
                 if(t.getStatus().equals("Booked")){
                     System.err.println("This treatment has already been booked,select another treatment!!!");
                     bookTreatmentByPhysician(id);
@@ -232,7 +235,7 @@ public class PCISControllers {
         q.viewTreatmentByExpertise(id);
         String physicianName = q.getPhysicianName(id);
         String patientName = q.getPatientName(Integer.parseInt(selectedPatientId));
-        System.out.println("\n0. Exit App \n\n00. Back to expertise menu");
+        System.out.println("\n0. Exit App \n\n00. Back to expertise menu\n");
         System.out.println("Select a ***TREATMENTID*** to book");
         scanner = new Scanner(System.in);
         String input = scanner.next();
@@ -245,7 +248,7 @@ public class PCISControllers {
         else{
             try{
                 int iput = Integer.parseInt(input);
-                Treatment t = q.getTreatment(iput-1);
+                Treatment t = q.getTreatment(iput);
                 if(t.getStatus().equals("Booked")){
                     System.err.println("This treatment has already been booked,select another option!!!");
                     bookTreatmentByExpertise(id);
@@ -297,11 +300,13 @@ public class PCISControllers {
     private static void viewAllAppointments(){
 //        System.out.println("....All patients appointment.....");
         if(q.getAppointmentSize()>0){
+           
              q.listAppointments();
              backToHome();
         }
         else{
-            System.out.println("Would you like to book an appointment through a physician or area expertise???");
+             System.out.println("sorry,you do not have any appointments at this time/n");
+            System.out.println("Would you like to view available treatments by a physician or area expertise???");
             System.out.println("1. Select a physician\n\n2. Select area of expertise\n\n00. Back to previous menu\n\n0. Exit App");
             scanner = new Scanner(System.in);
             String input = scanner.next();
@@ -428,7 +433,7 @@ public class PCISControllers {
                    missAnAppointment();
                }
                selectedAppointment.setStatus("Missed");
-               System.out.println("You have successfully cancelled the appointment,go back to previous menu to"
+               System.out.println("You have missed the appointment,go back to previous menu to"
                        + " view all missed appointments or select another appointment to miss");
                missAnAppointment();
            }
@@ -466,5 +471,9 @@ public class PCISControllers {
                System.err.println("Make sure you type either 0 to Exit App or 00 to go back to previous menu");
                viewAppointments(status);
            }
+     }
+     
+     public static void bookVisitorAppointment(){
+         System.out.println("");
      }
 }
