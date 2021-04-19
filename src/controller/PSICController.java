@@ -15,7 +15,7 @@ import model.Treatment;
  *
  * @author samuel
  */
-public class PCISControllers {
+public class PSICController {
     static Scanner scanner;
     public static String selectedPatientId = "1";
     public static DatastoreQuery q;
@@ -474,6 +474,9 @@ public class PCISControllers {
      }
      
      public static void bookVisitorAppointment(){
-         System.out.println("");
+         System.out.println("***\nWelcome to consultation bookings***\nKindly select a physician to schedule a consultation below");
+         q.listPhysicians();
+         System.out.println("Select physician to book consultation");
+         exitApp();
      }
 }

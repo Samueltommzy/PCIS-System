@@ -5,7 +5,7 @@
  */
 package pcis.project;
 
-import controller.PCISControllers;
+import controller.PSICController;
 import datastore.Data;
 import datastore.DatastoreQuery;
 import java.io.EOFException;
@@ -38,7 +38,7 @@ public class Main {
         q.readFileData("treatments.txt", "Treatment");
         q.readFileData("patients.txt", "Patient");
         
-        PCISControllers.startConsoleApp(q);
+        PSICController.startConsoleApp(q);
 //        System.exit(0);
     }
     

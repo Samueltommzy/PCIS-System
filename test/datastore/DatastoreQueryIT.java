@@ -135,7 +135,7 @@ public class DatastoreQueryIT {
      * Test of getAllExpertises method, of class DatastoreQuery.
      */
     @Test
-    public void GetAlltExpertise() {
+    public void GetAllExpertise() {
        
         DatastoreQuery instance = null;
         assertNull(instance);
@@ -191,7 +191,6 @@ public class DatastoreQueryIT {
        
         String status = "Booked";
         int id = t.getTreatmentId();
-        System.out.println("id: "+id);
         DatastoreQuery instance = new DatastoreQuery();
         instance.addTreatment(t);
         instance.setTreatmentStatus(status, id);
