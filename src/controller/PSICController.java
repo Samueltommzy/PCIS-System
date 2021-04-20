@@ -74,8 +74,8 @@ public class PSICController {
                 exitApp();
                 break;
             default:
-                System.out.println("Invalid option selected,exiting app.....");
-                exitApp();
+                System.out.println("Invalid option selected,restarting ....\n");
+                backToHome();
         }
     }
     
@@ -84,7 +84,7 @@ public class PSICController {
     }
     
     public static void exitApp(){
-        System.out.println("Bye Bye ...");
+        System.out.println("\nThanks for coming!!! Bye Bye ...");
         System.exit(0);
     }
     
@@ -477,6 +477,20 @@ public class PSICController {
          System.out.println("***\nWelcome to consultation bookings***\nKindly select a physician to schedule a consultation below");
          q.listPhysicians();
          System.out.println("Select physician to book consultation");
-         exitApp();
+         System.out.println("\nThis functionality is in progress ...\n");
+         System.out.println("Enter 0 to exit or enter 1 to go back to the main menu");
+         scanner = new Scanner(System.in);
+         String input = scanner.next();
+         switch(input){
+             case "0":
+                 exitApp();
+                 break;
+             case "1":
+                 backToHome();
+                 break;
+             default:
+                 System.err.println("Sorry you have input an invalid command");
+                 backToHome();
+         }
      }
 }
