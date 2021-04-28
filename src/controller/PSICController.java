@@ -28,8 +28,8 @@ public class PSICController {
         
         System.out.println("Select an option below");
         System.out.println("1. View all available patients\n2. View all available physicians\n3. View all areas of Expertise "
-                + "\n4. Create a patient\n5. Book Visitor consultation \n6. View all Appointments\n7. Attend an appointment\n8. Cancel an appointment"
-                + "\n9. Miss an appointment" +"\n10. View all attended appointments\n11. View all cancelled appointments"
+                + "\n4. Create a patient\n5. Book Visitor consultation \n6. View all Appointments\n7. Attend patient appointment\n8. Cancel patient appointment"
+                + "\n9. Miss patient appointment" +"\n10. View all attended appointments\n11. View all cancelled appointments"
                 + "\n12. View all missed appointments\n13. Exit");
         scanner = new Scanner(System.in);
         String input = scanner.next();
