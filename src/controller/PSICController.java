@@ -24,13 +24,13 @@ public class PSICController {
         q = query;
         System.out.println("-------- Welcome to the Physiotherapy&Sports Injury Center --------\n"
                 + "You will be provided with a couple of commands,"
-                + "kindly type the command number to assess a particular functionality\n\n");
+                + "kindly type the command number to assess a particular functionality\n");
         
         System.out.println("Select an option below");
         System.out.println("1. View all available patients\n2. View all available physicians\n3. View all areas of Expertise "
-                + "\n4. Create a patient\n5. View all Appointments\n6. Attend an appointment\n7. Cancel an appointment"
-                + "\n8. Miss an appointment" +"\n9. View all attended appointments\n10.View all cancelled appointments"
-                + "\n11.View all missed appointments\n12.Book Visitor consultation\n13. Exit");
+                + "\n4. Create a patient\n5. Book Visitor consultation \n6. View all Appointments\n7. Attend an appointment\n8. Cancel an appointment"
+                + "\n9. Miss an appointment" +"\n10. View all attended appointments\n11. View all cancelled appointments"
+                + "\n12. View all missed appointments\n13. Exit");
         scanner = new Scanner(System.in);
         String input = scanner.next();
         switch(input){
@@ -47,28 +47,35 @@ public class PSICController {
                 createPatient();
                 break;
             case "5":
-                viewAllAppointments();
+             bookVisitorAppointment();
+    
                 break;
             case "6":
-                attendAnAppointment();
+             viewAllAppointments();
+              
                 break;
             case "7":
-                cancelAnAppointment();
+              attendAnAppointment();
+                
                 break;
             case "8":
-                missAnAppointment();
+             cancelAnAppointment();
+                
                 break;
             case  "9":
-                viewAppointments("Attended");
+             missAnAppointment();
+                
                 break;
              case  "10":
-                viewAppointments("Cancelled");
+              viewAppointments("Attended");
+                
                 break;
              case  "11":
-                viewAppointments("Missed");
+              viewAppointments("Cancelled");
+                
                 break;
             case "12":
-                bookVisitorAppointment();
+             viewAppointments("Missed");
                 break;
             case "13":
                 exitApp();
@@ -268,7 +275,7 @@ public class PSICController {
     }
     
     public static void createAppointment(String patientId,String patientName,String physicianName,String date,String status,String room,String treatmentName,String entry,int entryId){
-        Appointment appointment = new Appointment(String.valueOf(q.getAppointmentSize()+1),patientId,patientName,physicianName,treatmentName,date,room,status);
+        Appointment appointment = new Appointment(String.valueOf(q.getAppointmentSize()+1),patientId,patientName,physicianName,treatmentName,date,room,status,"Patient Booking");
         q.addAppointment(appointment);
         System.out.println("your "+ treatmentName+" appointment with "+physicianName+" has been successfully booked for "+ date+ " Thank you!!!" );
         if(entry.equals("Physician")){
@@ -285,10 +292,25 @@ public class PSICController {
         scanner = new Scanner(System.in);
         System.out.println("Enter name to use: ");
         String name = scanner.nextLine();
+        while(name.isEmpty()){
+         System.err.println("Make sure you input a name");
+         System.out.println("Enter name to use: ");
+         name = scanner.nextLine();
+        }
         System.out.println("Enter phoneNumber: ");
         String phoneNumber = scanner.nextLine();
+        while(phoneNumber.isEmpty()){
+         System.err.println("Make sure you input a phonenumber");
+         System.out.println("Enter phoneNumber: ");
+         phoneNumber = scanner.nextLine();
+        }
         System.out.println("Enter your address: ");
         String address = scanner.nextLine();
+         while(address.isEmpty()){
+         System.err.println("Make sure you input an address");
+         System.out.println("Enter your address: ");
+         address = scanner.nextLine();
+        }
         int patientId = q.getPatientSize()+1;
         selectedPatientId = String.valueOf(patientId);
         Patient newp = new Patient(patientId,name,address,phoneNumber);
@@ -301,11 +323,11 @@ public class PSICController {
 //        System.out.println("....All patients appointment.....");
         if(q.getAppointmentSize()>0){
            
-             q.listAppointments();
+             q.listAllAppointments();
              backToHome();
         }
         else{
-             System.out.println("sorry,you do not have any appointments at this time/n");
+            System.out.println("sorry,you do not have any appointments at this time/n");
             System.out.println("Would you like to view available treatments by a physician or area expertise???");
             System.out.println("1. Select a physician\n\n2. Select area of expertise\n\n00. Back to previous menu\n\n0. Exit App");
             scanner = new Scanner(System.in);
@@ -337,7 +359,7 @@ public class PSICController {
             backToHome();
         }
         else{
-            q.listAppointments();
+            q.listPatientAppointments();
        System.out.println("00. Back to previous menu"+"\n0. Exit");
        System.out.println("Select an **APPOINTMENTID**  in order to attend");
        scanner = new Scanner(System.in);
@@ -374,7 +396,7 @@ public class PSICController {
     }
     
      private static void cancelAnAppointment() {
-       q.listAppointments();
+       q.listPatientAppointments();
        System.out.println("00. Back to previous menu"+"\n0. Exit");
        System.out.println("Select an **APPOINTMENTID**  in order to cancel");
        scanner = new Scanner(System.in);
@@ -409,7 +431,7 @@ public class PSICController {
        }
     }
      private static void missAnAppointment() {
-       q.listAppointments();
+       q.listPatientAppointments();
        System.out.println("00. Back to previous menu"+"\n0. Exit");
        System.out.println("Select an **APPOINTMENTID**  in order to miss");
        scanner = new Scanner(System.in);
@@ -476,21 +498,53 @@ public class PSICController {
      public static void bookVisitorAppointment(){
          System.out.println("***\nWelcome to consultation bookings***\nKindly select a physician to schedule a consultation below");
          q.listPhysicians();
-         System.out.println("Select physician to book consultation");
-         System.out.println("\nThis functionality is in progress ...\n");
-         System.out.println("Enter 0 to exit or enter 1 to go back to the main menu");
+         System.out.println("0 Exit App\n00 Back to previous menu");
+         System.out.println("\nSelect physician to book consultation");
          scanner = new Scanner(System.in);
          String input = scanner.next();
-         switch(input){
-             case "0":
-                 exitApp();
-                 break;
-             case "1":
-                 backToHome();
-                 break;
-             default:
-                 System.err.println("Sorry you have input an invalid command");
-                 backToHome();
-         }
+         
+          if(input.equals("0")){
+           exitApp();
+          }
+          else if(input.equals("00")){
+           backToHome();
+          }
+          else{
+           try{
+            int iput = Integer.parseInt(input);
+            if(iput>0&&iput<=5){
+             bookConsultationByPhysician(iput);
+            }
+           }
+           catch(Exception e){
+            System.err.println("Invalid input");
+           }
+          }       
+     }
+     
+     public static void bookConsultationByPhysician(int id){
+      String physicianName = q.getPhysicianName(id);
+      String physicianConsultations = q.getPhysicianConsultation(id);
+      System.out.println("Please provide your name ");
+      String visitorName = scanner.nextLine();
+        while(visitorName.isEmpty()){
+         System.err.println("Make sure you input your name");
+         System.out.println("Please provide your name: ");
+         visitorName = scanner.nextLine();
+        }
+      Appointment consultationAppointment = new Appointment(String.valueOf(q.getAppointmentSize()+1),visitorName,physicianName,physicianConsultations,
+                                                            "Room X","Booked","visitor consultation");
+      q.addAppointment(consultationAppointment);
+      System.out.println("\nCongratulations, "+visitorName+ "!!! "+ "Your consultation apointment with "+ physicianName+" has been reserved for "+ physicianConsultations.split(",")[0]);
+      System.out.println("\n\n0 Exit App\n00 Back to previous menu");
+        scanner = new Scanner(System.in);
+         String input = scanner.next();
+         
+          if(input.equals("0")){
+           exitApp();
+          }
+          else if(input.equals("00")){
+           backToHome();
+          }
      }
 }

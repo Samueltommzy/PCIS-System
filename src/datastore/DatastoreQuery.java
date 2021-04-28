@@ -112,12 +112,31 @@ public class DatastoreQuery {
             System.out.println(expertises.get(i).getId()+"."+" "+expertises.get(i).getName()+"\n");
         }
      }
-     public void listAppointments(){
+     public void listAllAppointments(){
          System.out.println(".....................All Appointments..............................\n");
-        
-        for(int i = 0;i <appointments.size();i++){
-            System.out.println(appointments.get(i).appointmentInfo()+"\n");
+      
+         System.out.println(":::::Patient Appointments:::::");
+         for(int i = 0;i <appointments.size();i++){
+          if(appointments.get(i).getAppointmentType().equals("Patient Booking")){
+           System.out.println(appointments.get(i).appointmentInfo()+"\n");
+          }
+     
         }
+         System.out.println(":::::Visitor Appointments:::::");
+          for(int i = 0;i <appointments.size();i++){
+           if(appointments.get(i).getAppointmentType().equals("visitor consultation")){
+            System.out.println(appointments.get(i).visitorConsultationInfo()+"\n");
+           }
+        }
+     }
+     
+     public void listPatientAppointments(){
+      System.out.println(".....................All Patient Appointments..............................\n");
+      for(int i = 0;i <appointments.size();i++){
+          if(appointments.get(i).getAppointmentType().equals("Patient Booking")){
+           System.out.println(appointments.get(i).appointmentInfo()+"\n");
+       }
+      }
      }
      //View treatments
      //Using hashset to improve performance giving constant -time number of operations 0(n) instead of looping o(n2)
@@ -125,7 +144,8 @@ public class DatastoreQuery {
          String physicianName = physicians.get(id-1).getFullName();
          Set<Integer> filterSet = treatmentFilter(id).stream().collect(Collectors.toSet());
         
-          ArrayList<Treatment> availableTreatments  = (ArrayList<Treatment>) treatments.stream().filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
+          ArrayList<Treatment> availableTreatments  = (ArrayList<Treatment>) treatments.stream()
+              .filter(treatment->filterSet.contains(treatment.getPhysicianId())).collect(Collectors.toList());
          
          System.out.println("-------All treatments available for  "+physicianName+"-------\n");
          for(int i =0;i<availableTreatments.size();i++){
@@ -133,6 +153,7 @@ public class DatastoreQuery {
              System.out.println(availableTreatments.get(i).getTreatmentInfo()+"\nPhysician name: "+physicianName+"\n");
          }
      }
+   
      
         public void viewTreatmentByExpertise(int id){
          String expertiseName = expertises.get(id-1).getName();
@@ -153,7 +174,9 @@ public class DatastoreQuery {
      private List<String> treatmentFilterExpertise(String name){
          return Arrays.asList(name);
      }
-     
+     private List<String> appointmentFilter(String type){
+      return Arrays.asList(type);
+     }
         public  void readFileData(String fileName,String className) throws EOFException, FileNotFoundException, IOException, ClassNotFoundException, URISyntaxException{
              InputStream fi = Main.class.getClassLoader().getResourceAsStream(fileName);
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -202,7 +225,9 @@ public class DatastoreQuery {
         public Treatment getTreatment(int id){
             return treatments.get(id-1);
         }
-        
+        public String getPhysicianConsultation(int id){
+         return physicians.get(id-1).getConsultationHours();
+        }
        public void setTreatmentStatus(String status,int id){
            Treatment t = treatments.get(id-1);
            

@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Expertise implements Serializable{
      private String name;
      private int id;
-//     private static final long serialVersionUID = 1L;
+//   private static final long serialVersionUID = 1L;
      public Expertise(){
          
      };

@@ -13,13 +13,15 @@ public class Appointment{
     private String appointmentId;
     private String patientId;
     private String patientName;
+    private String visitorName;
     private String physicianName;
     private String treatmentName;
     private String treatmentDate;
     private String room;
     private String status;
+    private String appointmentType;
     
-    public Appointment(String appointmentId,String patientId,String patientName,String physicianName,String treatmentName,String treatmentDate,String room,String status){
+    public Appointment(String appointmentId,String patientId,String patientName,String physicianName,String treatmentName,String treatmentDate,String room,String status,String appointmentType){
         this.patientId = patientId;
         this.physicianName = physicianName;
         this.room = room;
@@ -28,6 +30,16 @@ public class Appointment{
         this.treatmentName = treatmentName;
         this.appointmentId = appointmentId;
         this.patientName = patientName;
+        this.appointmentType = appointmentType;
+    }
+        public Appointment(String appointmentId,String visitorName,String physicianName,String treatmentDate,String room,String status,String appointmentType){
+        this.physicianName = physicianName;
+        this.visitorName = visitorName;
+        this.room = room;
+        this.status = status;
+        this.treatmentDate = treatmentDate;
+        this.appointmentId = appointmentId;
+        this.appointmentType = appointmentType;
     }
     /**
      * @return the patientId
@@ -53,9 +65,9 @@ public class Appointment{
     /**
      * @param physicianId the physicianId to set
      */
-    public void setPhysicianId(String physicianName) {
-        this.physicianName = physicianName;
-    }
+//    public void setPhysicianId(String physicianName) {
+//        this.p = physicianName;
+//    }
 
     /**
      * @return the treatmentName
@@ -113,7 +125,15 @@ public class Appointment{
         this.status = status;
     }
     
+    public String getAppointmentType(){
+     return this.appointmentType;
+    }
     public String appointmentInfo(){
-        return "\nappointmentId:"+appointmentId+" \ntreatment: "+treatmentName+"\npatientName: "+patientName+"\nphysicianName: "+physicianName+"\nstatus: "+status+"\ndate: "+treatmentDate+"\nroom: "+room;
+        return "\nappointmentId: "+this.appointmentId+" \ntreatment: "+this.treatmentName+"\npatientName: "+this.patientName+"\nphysicianName: "
+            +this.physicianName+"\nstatus: "+this.status+"\ndate: "+this.treatmentDate+"\nroom: "+room+"\nappointment type: "+this.appointmentType;
+    }
+    public String visitorConsultationInfo(){
+     return "\nappointmentId: "+this.appointmentId+"\nvisitor name: "+this.visitorName+"\nphysician name: "+this.physicianName+"\nstatus: "+ this.status
+         +"\nroom: "+ this.room+"\ndate: "+ this.treatmentDate+"\nappointment type: "+this.appointmentType;
     }
 }
