@@ -39,7 +39,7 @@ public class DatastoreQueryIT {
         Physician phys = new Physician(10,"Test", "Tests", "Test", p4Expertise,p4ConsultationHours);
         Treatment treat = new Treatment(1,"1","2",3,"4","5","6");
         Expertise testExp = new Expertise("Test",1);
-        Appointment ap = new Appointment("1","b","c","d","e","test","test","test");
+        Appointment ap = new Appointment("1","b","c","d","e","test","test","test","type");
        phy = phys;
        p = pat;
        t = treat;
@@ -91,7 +91,7 @@ public class DatastoreQueryIT {
      */
     @Test
     public void testAddAppointment() {
-        Appointment a = new Appointment("a","s","d","f","p","q","g","booked");
+        Appointment a = new Appointment("a","s","d","f","p","q","g","booked","type");
        
         DatastoreQuery instance =null;
         assertNull(instance);
